@@ -7,8 +7,10 @@ RUN apt-get update && \
 RUN docker-php-ext-install ldap pdo pdo_sqlite pdo_pgsql pdo_mysql\
     && a2enmod rewrite
 
-RUN wget https://github.com/YOURLS/YOURLS/archive/master.zip
-RUN unzip master.zip -d /var/www/html
+RUN wget https://github.com/YOURLS/YOURLS/archive/master.zip -O /tmp/YOURLS.zip
+RUN unzip /tmp/YOURLS.zip -d /tmp
+RUN mv /tmp/YOURLS-master/* /var/www/html/
+RUN rm /tmp/YOURLS* -R
 RUN mkdir -p /var/www/html/user/plugins/db
 RUN mkdir -p /var/www/html/user/plugins/ldap
 COPY plugin.php /var/www/html/user/plugins/db/plugin.php
